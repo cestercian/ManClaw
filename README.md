@@ -7,6 +7,7 @@ Production-oriented MVP for a single manager handling ~200 talents over LINE.
 - `POST /api/manager/draft-sentences`: return 3 candidate outbound LINE sentences.
 - `POST /api/admin/profiles/sync`: load profile and opportunity data from CSV or Google Sheet CSV URLs.
 - `POST /api/admin/retention-cleanup`: cleanup expired conversation logs and dedupe IDs.
+- `POST /api/admin/line/push`: send a manual push message to a specific LINE `userId`.
 - Personalization using talent profile fields.
 - JP/EN response behavior.
 - Escalation queue sink (CSV or webhook) + optional manager LINE push notify.
@@ -48,6 +49,14 @@ curl -X POST http://localhost:3000/api/manager/draft-sentences \
   -H 'content-type: application/json' \
   -H 'x-admin-key: YOUR_ADMIN_KEY' \
   -d '{"audience_tag":"audition","purpose":"Share this week openings","tone":"friendly","language":"ja"}'
+```
+
+### Push manual LINE message
+```bash
+curl -X POST http://localhost:3000/api/admin/line/push \
+  -H 'content-type: application/json' \
+  -H 'x-admin-key: YOUR_ADMIN_KEY' \
+  -d '{"to":"LINE_USER_ID","text":"Hey Jigyasu, as requested, here are current events."}'
 ```
 
 ## Required env vars for real LINE operation

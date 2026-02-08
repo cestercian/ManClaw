@@ -57,6 +57,17 @@ function createWebhookHandler(containerProvider = getContainer) {
     };
 
     for (const event of events) {
+      console.log(
+        JSON.stringify({
+          tag: "line_webhook_event",
+          eventType: event.type || null,
+          userId: event && event.source ? event.source.userId || null : null,
+          messageType: event && event.message ? event.message.type || null : null,
+          text: event && event.message && event.message.type === "text" ? event.message.text || "" : "",
+          eventId: event.webhookEventId || null,
+        })
+      );
+
       if (event.type !== "message" || !event.message || event.message.type !== "text") {
         summary.ignored += 1;
         continue;
@@ -82,6 +93,7 @@ function createWebhookHandler(containerProvider = getContainer) {
 
         summary.results.push({
           eventId: result.eventId,
+          userId: event && event.source ? event.source.userId || null : null,
           status: result.status,
           action: result.action || null,
           confidence: result.confidence || null,
