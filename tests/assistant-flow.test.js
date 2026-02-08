@@ -154,6 +154,17 @@ test("Duplicate webhook event is idempotent", async () => {
   assert.equal(logs.length, 1);
 });
 
+test("whoami command returns the sender LINE userId", async () => {
+  const container = buildTestContainer();
+  const result = await container.assistantService.handleLineMessageEvent(
+    makeEvent({ userId: "U1002", text: "whoami" })
+  );
+
+  assert.equal(result.action, "answer");
+  assert.match(result.replyText, /U1002/);
+  assert.equal(result.classification.intent, "utility_whoami");
+});
+
 test("Retention cleanup removes expired conversation logs", async () => {
   const container = buildTestContainer();
 

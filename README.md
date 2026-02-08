@@ -67,12 +67,16 @@ curl -X POST http://localhost:3000/api/admin/line/push \
 - `ADMIN_API_KEY`
 - Vercel KV environment (`KV_REST_API_URL`, `KV_REST_API_TOKEN`) if you install/use `@vercel/kv`
 
+To discover a LINE user ID quickly, send `whoami` to your bot account from that user. The bot replies with the sender's `userId`.
+
 ## Google Sheet mode
 Set:
 - `SHEETS_PROFILES_CSV_URL`
 - `SHEETS_KNOWLEDGE_CSV_URL`
 
 Then call `/api/admin/profiles/sync` with `{ "source": "sheet" }`.
+
+If CSV files are unavailable in serverless runtime, sync falls back to bundled default seed CSV.
 
 ## Retention
 - Default retention is 30 days (`CONVERSATION_RETENTION_SECONDS=2592000`).
